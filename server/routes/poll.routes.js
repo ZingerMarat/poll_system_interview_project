@@ -10,7 +10,7 @@ router.post("/users", async (req, res) => {
 
     const existingUser = await prisma.user.findUnique({ where: { username } })
     if (existingUser) {
-      return res.status(400).json({ error: "Username already exists" })
+      return res.status(200).json(existingUser)
     }
 
     const user = await prisma.user.create({ data: { username } })
@@ -91,27 +91,15 @@ router.post("/polls/:id/vote", async (req, res) => {
   }
 })
 
-//Share Poll Link
-router.get("/polls/:id/share", async (req, res) => {
-  try {
-    const poll = await prisma.poll.findUnique({
-      where: { id: Number(req.params.id) },
-    })
-
-    if (!poll) return res.status(404).json({ error: "Poll not found" })
-
-    const pollLink = `http://localhost:5173/polls/${poll.id}`
-    res.json({ link: pollLink })
-  } catch (err) {
-    res.status(400).json({ error: err.message })
-  }
-})
-
 //View Poll Results
 router.get("/polls/:id", async (req, res) => {
   try {
-    const poll = await prisma.poll.findUnique({
-      where: { id: Number(req.params.id) },
+    const userId = Number(req.params.id)
+    if (isNaN(userId)) {
+      return res.status(400).json({ error: "Invalid user ID" })
+    }
+    const poll = await prisma.poll.findMany({
+      where: { creatorId: userId },
       include: {
         options: {
           include: { votes: true },

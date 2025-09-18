@@ -1,10 +1,8 @@
 import React, { useState } from "react"
 import { useUserStore } from "../stores/userStore.jsx"
-import axios from "axios"
+import { api } from "../endpoints/api.js"
 
 const UserForm = () => {
-  const userId = useUserStore((state) => state.userId)
-  const username = useUserStore((state) => state.username)
   const setUser = useUserStore((state) => state.setUser)
 
   const [name, setName] = useState("")
@@ -19,10 +17,9 @@ const UserForm = () => {
 
     setLoading(true)
     try {
-      const res = await axios.post("http://localhost:3000/api/users", { username: name })
+      const res = await api.post("/users", { username: name })
       setUser(res.data.id, res.data.username)
       setName("")
-      alert(`User created: ${res.data.username} (ID: ${res.data.id})`)
     } catch (err) {
       alert(err.response?.data?.error || err.message)
     } finally {
@@ -31,7 +28,7 @@ const UserForm = () => {
   }
 
   return (
-    <div className="flex flex-col gap-3 w-80 mx-auto mt-20">
+    <div className="flex flex-col gap-3 w-80 mx-auto">
       <h3 className="text-lg font-medium text-center">User Form</h3>
       <div className="flex gap-3">
         <input
