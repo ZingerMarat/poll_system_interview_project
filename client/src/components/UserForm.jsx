@@ -18,7 +18,7 @@ const UserForm = () => {
     setLoading(true)
     try {
       const res = await api.post("/users", { username: name })
-      setUser(res.data.id, res.data.username)
+      setUser(res.data.id)
       setName("")
     } catch (err) {
       alert(err.response?.data?.error || err.message)

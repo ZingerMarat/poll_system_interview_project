@@ -1,22 +1,14 @@
 import "./App.css"
-import UserForm from "./components/UserForm.jsx"
-import PollForm from "./components/PollForm.jsx"
-import { useUserStore } from "./stores/userStore.jsx"
-import PollList from "./components/PollList.jsx"
+import PollPage from "./pages/PollPage.jsx"
+import HomePage from "./pages/HomePage.jsx"
+import { Routes, Route } from "react-router-dom"
 
 function App() {
-  const userId = useUserStore((state) => state.userId)
-
   return (
-    <>
-      <div className="flex gap-4 item-start">
-        <div className="flex flex-col items-center gap-4 mb-4">
-          <UserForm />
-          {userId && <PollForm />}
-        </div>
-        <PollList />
-      </div>
-    </>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/polls/:id" element={<PollPage />} />
+    </Routes>
   )
 }
 

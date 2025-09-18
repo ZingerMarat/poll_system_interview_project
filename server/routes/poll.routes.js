@@ -92,14 +92,36 @@ router.post("/polls/:id/vote", async (req, res) => {
 })
 
 //View Poll Results
-router.get("/polls/:id", async (req, res) => {
+router.get("/user/polls/:userId", async (req, res) => {
   try {
-    const userId = Number(req.params.id)
+    const userId = Number(req.params.userId)
     if (isNaN(userId)) {
       return res.status(400).json({ error: "Invalid user ID" })
     }
     const poll = await prisma.poll.findMany({
       where: { creatorId: userId },
+      include: {
+        options: {
+          include: { votes: true },
+        },
+      },
+    })
+    if (!poll) return res.status(404).json({ error: "Poll not found" })
+    res.json(poll)
+  } catch (err) {
+    res.status(400).json({ error: err.message })
+  }
+})
+
+//Get poll by ID
+router.get("/polls/:pollId", async (req, res) => {
+  try {
+    const pollId = Number(req.params.pollId)
+    if (isNaN(pollId)) {
+      return res.status(400).json({ error: "Invalid poll ID" })
+    }
+    const poll = await prisma.poll.findUnique({
+      where: { id: pollId },
       include: {
         options: {
           include: { votes: true },

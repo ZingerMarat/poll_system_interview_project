@@ -1,13 +1,15 @@
 const PollShareLink = ({ pollId, show, onToggle }) => (
   <>
     {show && (
-      <input
-        type="text"
-        readOnly
-        value={"http://localhost:3000/polls/" + pollId}
-        className="border px-2 py-1 rounded text-sm w-40"
-        onFocus={(e) => e.target.select()}
-      />
+      <div className="flex gap-2 items-center">
+        <input
+          type="text"
+          readOnly
+          value={"http://localhost:5173/polls/" + pollId}
+          className="border px-2 py-1 rounded text-sm w-40"
+          onFocus={(e) => e.target.select()}
+        />
+      </div>
     )}
     <button
       onClick={onToggle}
