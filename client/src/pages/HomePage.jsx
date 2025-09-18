@@ -12,7 +12,7 @@ const HomePage = () => {
         <UserForm />
         {userId && <PollForm />}
       </div>
-      <PollList />
+      {userId && <PollList />}
     </div>
   )
 }

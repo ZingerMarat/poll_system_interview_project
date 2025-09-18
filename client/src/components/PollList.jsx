@@ -10,7 +10,6 @@ const PollList = () => {
   const [showLinkId, setShowLinkId] = useState(null)
 
   useEffect(() => {
-    if (!userId) return
     loadPolls(userId)
   }, [userId, loadPolls])
 
@@ -22,8 +21,6 @@ const PollList = () => {
       alert(err.response?.data?.error || err.message)
     }
   }
-
-  if (!userId) return null
 
   return (
     <div className="flex flex-col gap-3 w-96 mx-auto">
