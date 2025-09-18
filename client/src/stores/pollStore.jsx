@@ -12,7 +12,7 @@ export const usePollsStore = create((set, get) => ({
     if (!userId) return
     set({ loading: true })
     try {
-      const res = await api.get(`/user/polls/${userId}`)
+      const res = await api.get(`/polls/user/${userId}`)
       set({ polls: res.data })
     } catch (err) {
       console.error(err)

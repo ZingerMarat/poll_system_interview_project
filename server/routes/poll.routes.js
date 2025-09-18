@@ -92,7 +92,7 @@ router.post("/polls/:id/vote", async (req, res) => {
 })
 
 //View Poll Results
-router.get("/user/polls/:userId", async (req, res) => {
+router.get("/polls/user/:userId", async (req, res) => {
   try {
     const userId = Number(req.params.userId)
     if (isNaN(userId)) {
